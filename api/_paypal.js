@@ -1,0 +1,3 @@
+const sandbox='https://api-m.sandbox.paypal.com';
+async function token(){if(process.env.PAYPAL_ENV!=='sandbox')throw Error('Sandbox configuration required');const id=process.env.PAYPAL_CLIENT_ID,secret=process.env.PAYPAL_CLIENT_SECRET;if(!id||!secret)throw Error('PayPal Sandbox credentials are not configured');const r=await fetch(sandbox+'/v1/oauth2/token',{method:'POST',headers:{Authorization:'Basic '+Buffer.from(id+':'+secret).toString('base64'),'Content-Type':'application/x-www-form-urlencoded'},body:'grant_type=client_credentials'});if(!r.ok)throw Error('PayPal authentication failed');return (await r.json()).access_token;}
+module.exports={sandbox,token};
